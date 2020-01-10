@@ -6,4 +6,6 @@ import com.ramon.sisu.domain.model.Curso;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer>{
 
+	public boolean existsByNome(String nome);
+
 }
