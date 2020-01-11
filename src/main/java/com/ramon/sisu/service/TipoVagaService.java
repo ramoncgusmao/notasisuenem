@@ -1,12 +1,15 @@
 package com.ramon.sisu.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.TipoVaga;
 import com.ramon.sisu.repository.TipoVagaRepository;
+import com.ramon.sisu.service.exception.ObjectNotFoundException;
 
 @Service
 public class TipoVagaService {
@@ -27,6 +30,16 @@ public class TipoVagaService {
 	public List<TipoVaga> criarListaTipoVaga(List<TipoVaga> tipoVagas) {
 		// TODO Auto-generated method stub
 		return repository.saveAll(tipoVagas);
+	}
+
+	public TipoVaga findBySigla(String sigla) {
+		Optional<TipoVaga> tipoVagaOpt = repository.findBySigla(sigla);
+		
+		if(tipoVagaOpt.isPresent()) {
+			return tipoVagaOpt.get();
+		}
+		
+		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com essa sigla : " + sigla);
 	}
 	
 

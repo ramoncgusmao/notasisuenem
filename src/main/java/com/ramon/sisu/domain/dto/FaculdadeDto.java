@@ -18,12 +18,12 @@ public class FaculdadeDto {
 	private String sigla;
 	
 	@NotNull
-	private Integer estado;
+	private String estado;
 	
 	public Faculdade convertToEntity() {
 		return Faculdade.builder()
 				.nome(nome)
-				.estado(Estado.builder().id(estado).build())
+				.estado(Estado.builder().sigla(estado).build())
 				.sigla(sigla)
 				.build();
 	}

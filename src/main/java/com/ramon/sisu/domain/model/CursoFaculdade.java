@@ -1,13 +1,21 @@
 package com.ramon.sisu.domain.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,7 +71,10 @@ public class CursoFaculdade {
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
 	
-	
+	@OneToMany(mappedBy = "cursoFaculdade", fetch = FetchType.EAGER, targetEntity = Vaga.class,
+            cascade=CascadeType.ALL, orphanRemoval = true)
+	@Fetch(value=FetchMode.JOIN)
+	private List<Vaga> vagas;
 	
 	
 	

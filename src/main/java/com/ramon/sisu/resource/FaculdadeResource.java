@@ -28,6 +28,7 @@ public class FaculdadeResource {
 	public ResponseEntity criarFaculdade(@RequestBody @Valid FaculdadeDto dto) {
 		
 		try {
+			
 			Faculdade faculdade = dto.convertToEntity();
 			faculdade = service.save(faculdade);
 			return new ResponseEntity<Faculdade>(faculdade, HttpStatus.CREATED);

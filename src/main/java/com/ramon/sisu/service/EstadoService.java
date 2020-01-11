@@ -2,12 +2,14 @@ package com.ramon.sisu.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.Estado;
 import com.ramon.sisu.repository.EstadoRepository;
+import com.ramon.sisu.service.exception.ObjectNotFoundException;
 
 @Service
 public class EstadoService {
@@ -63,6 +65,15 @@ public class EstadoService {
 	public List<Estado> buscarEstados() {
 		
 		return repository.findAll();
+	}
+
+	public Estado findBySigla(String sigla) {
+		Optional<Estado> estadoOpt = repository.findBySigla(sigla);
+		
+		if(estadoOpt.isPresent()) {
+			return estadoOpt.get();
+		}
+		throw new ObjectNotFoundException("não foi possivel encontrar estado : " + sigla);
 	}
 	
 }
