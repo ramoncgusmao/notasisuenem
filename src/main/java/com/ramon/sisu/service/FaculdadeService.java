@@ -3,10 +3,12 @@ package com.ramon.sisu.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.Faculdade;
 import com.ramon.sisu.repository.FaculdadeRepository;
 
+@Service
 public class FaculdadeService {
 
 	@Autowired
@@ -26,6 +28,11 @@ public class FaculdadeService {
 		}else {
 			return repository.findByEstado_id(id);
 		}
+	}
+
+	public List<Faculdade> saveList(List<Faculdade> faculdades) {
+		// TODO Auto-generated method stub
+		return repository.saveAll(faculdades);
 	}
 
 }

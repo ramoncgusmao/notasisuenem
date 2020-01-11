@@ -1,6 +1,7 @@
 package com.ramon.sisu.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -37,6 +38,17 @@ public class CursoResource {
 		}
 	}
 	
+	@PostMapping("/salvarlista")
+	public ResponseEntity criarTodosCurso(@RequestBody @Valid List<CursoDto> dto) {
+		
+		try {
+			List<Curso> cursos = dto.stream().map( x -> x.convertToEntity()).collect(Collectors.toList());
+			cursos = service.criarCursoLista(cursos);
+			return new ResponseEntity(cursos, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 	@GetMapping()
 	public ResponseEntity buscarCursos() {
 		

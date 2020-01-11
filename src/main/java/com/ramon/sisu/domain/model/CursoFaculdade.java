@@ -56,8 +56,8 @@ public class CursoFaculdade {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "faculdade_id")
-	private Faculdade faculdade;
+	@JoinColumn(name = "campus_id")
+	private Campus campus;
 	
 	@ManyToOne
 	@JoinColumn(name = "curso_id")

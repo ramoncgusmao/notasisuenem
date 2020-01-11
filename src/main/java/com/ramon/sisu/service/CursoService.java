@@ -32,4 +32,9 @@ public class CursoService {
 		return repository.findAll();
 	}
 
+	public List<Curso> criarCursoLista(List<Curso> cursos) {
+		// TODO Auto-generated method stub
+		return repository.saveAll(cursos);
+	}
+
 }

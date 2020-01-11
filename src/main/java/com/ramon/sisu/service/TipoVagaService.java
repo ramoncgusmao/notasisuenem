@@ -23,6 +23,11 @@ public class TipoVagaService {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+
+	public List<TipoVaga> criarListaTipoVaga(List<TipoVaga> tipoVagas) {
+		// TODO Auto-generated method stub
+		return repository.saveAll(tipoVagas);
+	}
 	
 
 	

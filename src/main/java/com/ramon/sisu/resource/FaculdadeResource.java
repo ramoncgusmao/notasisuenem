@@ -1,6 +1,7 @@
 package com.ramon.sisu.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -42,6 +43,18 @@ public class FaculdadeResource {
 		try {
 			List<Faculdade> faculdades = service.find(null);
 			return ResponseEntity.ok(faculdades);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PostMapping("/criarLista")
+	public ResponseEntity criarFaculdade(@RequestBody @Valid List<FaculdadeDto> lista) {
+		
+		try {
+			List<Faculdade> faculdades = lista.stream().map(x -> x.convertToEntity()).collect(Collectors.toList());
+			faculdades = service.saveList(faculdades);
+			return new ResponseEntity<List<Faculdade>>(faculdades, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

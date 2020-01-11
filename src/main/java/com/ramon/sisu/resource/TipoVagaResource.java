@@ -1,6 +1,7 @@
 package com.ramon.sisu.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -42,6 +43,18 @@ public class TipoVagaResource {
 		
 		try {
 			List<TipoVaga> tipoVagas = service.buscarTipoVagas();
+			return new ResponseEntity(tipoVagas, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PostMapping("/cadastrarlista")
+	public ResponseEntity criarListaTipoVaga(@RequestBody @Valid List<TipoVagaDto> listDto) {
+		
+		try {
+			List<TipoVaga> tipoVagas = listDto.stream().map(x -> x.convertToEntity()).collect(Collectors.toList());
+			tipoVagas = service.criarListaTipoVaga(tipoVagas);
 			return new ResponseEntity(tipoVagas, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

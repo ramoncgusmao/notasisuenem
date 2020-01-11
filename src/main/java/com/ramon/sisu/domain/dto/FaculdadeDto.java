@@ -17,8 +17,6 @@ public class FaculdadeDto {
 	@NotEmpty
 	private String sigla;
 	
-	private String polo;
-	
 	@NotNull
 	private Integer estado;
 	
@@ -27,7 +25,6 @@ public class FaculdadeDto {
 				.nome(nome)
 				.estado(Estado.builder().id(estado).build())
 				.sigla(sigla)
-				.polo(polo)
 				.build();
 	}
 }

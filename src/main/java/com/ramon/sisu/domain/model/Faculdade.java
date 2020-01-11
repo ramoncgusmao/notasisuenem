@@ -26,17 +26,18 @@ public class Faculdade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 50, nullable = false)
+	@Column(length = 100, nullable = false)
 	private String nome;
 	
 	@Column(length = 8)
 	private String sigla;
 	
-	@Column(length = 50)
-	private String polo;
 	
 	@ManyToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
+	
+	
+	
 	
 }
