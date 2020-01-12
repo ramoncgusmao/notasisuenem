@@ -22,6 +22,7 @@ import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Periodo;
+import com.ramon.sisu.domain.model.Turno;
 import com.ramon.sisu.domain.model.Vaga;
 import com.sun.istack.NotNull;
 
@@ -62,6 +63,9 @@ public class CursoFaculdadeDto {
 	private String curso;
 	
 	@NotNull
+	private Integer turno;
+	
+	@NotNull
 	private List<VagaDto> vagas = new ArrayList<>();
 	
 	
@@ -80,6 +84,7 @@ public class CursoFaculdadeDto {
 				.campus(Campus.builder().nome(campus).build())
 				.curso(Curso.builder().nome(curso).build())
 				.vagas(vagas.stream().map(x -> x.convertToEntity()).collect(Collectors.toList()))
+				.turno(Turno.toEnum(turno))
 				.build();
 	}
 

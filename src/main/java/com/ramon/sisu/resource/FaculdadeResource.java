@@ -50,7 +50,7 @@ public class FaculdadeResource {
 	}
 	
 	@PostMapping("/criarLista")
-	public ResponseEntity criarFaculdade(@RequestBody @Valid List<FaculdadeDto> lista) {
+	public ResponseEntity criarFaculdadeLista(@RequestBody @Valid List<FaculdadeDto> lista) {
 		
 		try {
 			List<Faculdade> faculdades = lista.stream().map(x -> x.convertToEntity()).collect(Collectors.toList());

@@ -38,7 +38,7 @@ public class CampusService {
 	}
 	
 	public Campus findByNome(String nome) {
-		Optional<Campus> campusOpt = repository.findByNome(nome);
+		Optional<Campus> campusOpt = repository.findByNome(nome.toUpperCase());
 		
 		if(campusOpt.isPresent()) {
 			return campusOpt.get();

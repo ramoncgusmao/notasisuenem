@@ -16,10 +16,10 @@ public class FaculdadeService {
 
 	@Autowired
 	private FaculdadeRepository repository;
-	
+
 	@Autowired
 	private EstadoService estadoService;
-	
+
 	public Faculdade save(Faculdade faculdade) {
 		verificaExistencia(faculdade);
 		carregarEstadoNaFaculdade(faculdade);
@@ -27,10 +27,11 @@ public class FaculdadeService {
 	}
 
 	public void verificaExistencia(Faculdade faculdade) {
-		if(repository.existsBySigla(faculdade.getSigla())){
+		if (repository.existsBySigla(faculdade.getSigla())) {
 			throw new DataIntegrityException("a faculdade " + faculdade.getNome() + " já esta cadastrada ");
 		}
 	}
+
 	private void carregarEstadoNaFaculdade(Faculdade faculdade) {
 		faculdade.setEstado(estadoService.findBySigla(faculdade.getEstado().getSigla()));
 	}
@@ -39,32 +40,41 @@ public class FaculdadeService {
 		verificaExistencia(faculdade);
 		carregarEstadoNaFaculdade(faculdade);
 	}
+
 	public List<Faculdade> find(Integer id) {
-		
-		
-		if(id == null) {
+
+		if (id == null) {
 			return repository.findAll();
-			
-		}else {
+
+		} else {
 			return repository.findByEstado_id(id);
 		}
 	}
 
 	public List<Faculdade> saveList(List<Faculdade> faculdades) {
 		// TODO Auto-generated method stub
-		faculdades.stream().forEach( x -> validaCadastro(x));
+		faculdades.stream().forEach(x -> validaCadastro(x));
 		return repository.saveAll(faculdades);
 	}
 
-	
 	public Faculdade findBySigla(String sigla) {
 		Optional<Faculdade> faculdadeOpt = repository.findBySigla(sigla);
-		
-		if(faculdadeOpt.isPresent()) {
+
+		if (faculdadeOpt.isPresent()) {
 			return faculdadeOpt.get();
 		}
-		
+
 		throw new ObjectNotFoundException("não existe faculdade com a sigla : " + sigla);
+	}
+
+	public Faculdade findById(Integer id) {
+		Optional<Faculdade> faculdadeOpt = repository.findById(id);
+
+		if (faculdadeOpt.isPresent()) {
+			return faculdadeOpt.get();
+		}
+
+		throw new ObjectNotFoundException("não existe faculdade com o id" + id);
 	}
 
 }

@@ -41,6 +41,16 @@ public class TipoVagaService {
 		
 		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com essa sigla : " + sigla);
 	}
+
+	public TipoVaga findById(Integer id) {
+		Optional<TipoVaga> tipoVagaOpt = repository.findById(id);
+		
+		if(tipoVagaOpt.isPresent()) {
+			return tipoVagaOpt.get();
+		}
+		
+		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com esse id : " + id);
+	}
 	
 
 	

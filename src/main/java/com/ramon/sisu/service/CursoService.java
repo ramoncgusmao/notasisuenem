@@ -26,7 +26,7 @@ public class CursoService {
 	}
 
 	private boolean validarCurso(Curso curso) {
-		return repository.existsByNome(curso.getNome());
+		return repository.existsByNome(curso.getNome().toUpperCase());
 	}
 
 	public List<Curso> buscarCursos() {
@@ -40,13 +40,24 @@ public class CursoService {
 	}
 
 	public Curso findByNome(String nome) {
-		Optional<Curso> cursoOpt = repository.findByNome(nome);
+		Optional<Curso> cursoOpt = repository.findByNome(nome.toUpperCase());
 		
 		if(cursoOpt.isPresent()) {
 			return cursoOpt.get();
 		}
 		
 		throw new ObjectNotFoundException("nao foi encontrado curso " + nome);
+	}
+
+	public Curso findById(Integer id) {
+	Optional<Curso> cursoOpt = repository.findById(id);
+		
+		if(cursoOpt.isPresent()) {
+			return cursoOpt.get();
+		}
+		
+		throw new ObjectNotFoundException("nao foi encontrado curso com o id " + id);
+
 	}
 
 }

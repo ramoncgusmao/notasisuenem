@@ -6,6 +6,9 @@ import com.ramon.sisu.domain.model.TipoVaga;
 import com.ramon.sisu.domain.model.Vaga;
 import com.sun.istack.NotNull;
 
+import lombok.Data;
+
+@Data
 public class VagaDto {
 
 	@NotNull
