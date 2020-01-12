@@ -40,7 +40,7 @@ public class Dia {
 	private Integer dia;
 	
 	
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
 	

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.TipoVaga;
 import com.ramon.sisu.repository.TipoVagaRepository;
 import com.ramon.sisu.service.exception.ObjectNotFoundException;
@@ -42,14 +41,14 @@ public class TipoVagaService {
 		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com essa sigla : " + sigla);
 	}
 
-	public TipoVaga findById(Integer id) {
-		Optional<TipoVaga> tipoVagaOpt = repository.findById(id);
-		
+	public TipoVaga findById(Integer valor) {
+		Optional<TipoVaga> tipoVagaOpt = repository.findById(valor);
+		System.out.println("oiiii");
 		if(tipoVagaOpt.isPresent()) {
 			return tipoVagaOpt.get();
 		}
-		
-		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com esse id : " + id);
+	
+		throw new ObjectNotFoundException("nao foi encontrado tipo vaga com esse id : " + valor);
 	}
 	
 

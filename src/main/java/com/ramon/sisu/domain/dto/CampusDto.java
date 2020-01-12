@@ -1,7 +1,5 @@
 package com.ramon.sisu.domain.dto;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.ramon.sisu.domain.model.Campus;

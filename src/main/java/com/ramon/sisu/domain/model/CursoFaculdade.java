@@ -1,5 +1,6 @@
 package com.ramon.sisu.domain.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,9 +28,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "cursoFaculdade")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CursoFaculdade {
 
 	@Id
@@ -81,8 +79,11 @@ public class CursoFaculdade {
 	@OneToMany(mappedBy = "cursoFaculdade", fetch = FetchType.EAGER, targetEntity = Vaga.class,
             cascade=CascadeType.ALL, orphanRemoval = true)
 	@Fetch(value=FetchMode.JOIN)
-	private List<Vaga> vagas;
+	private List<Vaga> vagas = new ArrayList<>();
 	
 	
+	public double sumPesos() {
+		return (redacaoPeso + naturezaPeso + matematicaPeso + humanaPeso + linguagemPeso);
+	}
 	
 }

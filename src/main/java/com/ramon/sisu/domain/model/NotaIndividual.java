@@ -2,10 +2,7 @@ package com.ramon.sisu.domain.model;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class NotaIndividual {
@@ -28,5 +25,5 @@ public class NotaIndividual {
 	
 	private double mediaNormal;
 	
-	private List<Medias> medias;
+	private List<Media> medias;
 }

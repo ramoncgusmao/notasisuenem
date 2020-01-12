@@ -1,7 +1,5 @@
 package com.ramon.sisu.domain.dto;
 
-import javax.management.loading.PrivateClassLoader;
-
 import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.Faculdade;
 import com.ramon.sisu.domain.model.NotaIndividual;
@@ -60,7 +58,6 @@ public class NotaIndividualDto {
 		if(!flagFiltro) {
 			throw new ObjectNotFoundException("não possui nenhum dos parametros de filtro");
 		}
-		System.out.println(notaIndividual);
 		return notaIndividual;
 		
 	}

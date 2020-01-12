@@ -4,26 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Periodo;
 import com.ramon.sisu.domain.model.Turno;
-import com.ramon.sisu.domain.model.Vaga;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
@@ -71,21 +58,22 @@ public class CursoFaculdadeDto {
 	
 	public CursoFaculdade convertToEntity() {
 		// TODO Auto-generated method stub
-		return CursoFaculdade.builder()
-				.redacaoPeso(rp)
-				.naturezaPeso(np)
-				.humanaPeso(hp)
-				.linguagemPeso(lp)
-				.matematicaPeso(mp)
-				.mediaMinima(mediaMinima)
-				.possuiCotaRegional(possuiCotaRegional)
-				.porcentagemRegional(porcentagemRegional)
-				.periodo(Periodo.builder().nome(periodo).build())
-				.campus(Campus.builder().nome(campus).build())
-				.curso(Curso.builder().nome(curso).build())
-				.vagas(vagas.stream().map(x -> x.convertToEntity()).collect(Collectors.toList()))
-				.turno(Turno.toEnum(turno))
-				.build();
+		CursoFaculdade cursoFaculdade = new CursoFaculdade();
+			cursoFaculdade.setRedacaoPeso(rp);
+			cursoFaculdade.setNaturezaPeso(np);
+			cursoFaculdade.setHumanaPeso(hp);
+			cursoFaculdade.setLinguagemPeso(lp);
+			cursoFaculdade.setMatematicaPeso(mp);
+			cursoFaculdade.setMediaMinima(mediaMinima);
+			cursoFaculdade.setPossuiCotaRegional(possuiCotaRegional);
+			cursoFaculdade.setPorcentagemRegional(porcentagemRegional);
+			cursoFaculdade.setPeriodo(Periodo.builder().nome(periodo).build());
+			cursoFaculdade.setCampus(Campus.builder().nome(campus).build());
+			cursoFaculdade.setCurso(Curso.builder().nome(curso).build());
+			cursoFaculdade.setVagas(vagas.stream().map(x -> x.convertToEntity()).collect(Collectors.toList()));
+			cursoFaculdade.setTurno(Turno.toEnum(turno));
+		
+			return cursoFaculdade;
 	}
 
 }

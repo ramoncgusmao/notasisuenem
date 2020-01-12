@@ -1,14 +1,16 @@
  package com.ramon.sisu.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.CursoFaculdade;
+import com.ramon.sisu.domain.model.TipoVaga;
+import com.ramon.sisu.domain.model.Vaga;
 import com.ramon.sisu.repository.CursoFaculdadeRepository;
 
 @Service
@@ -81,10 +83,17 @@ public class CursoFaculdadeService {
 				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional")
 				.withIgnoreNullValues()
 				);
+		List<CursoFaculdade> lista = repository.findAll(example);
 		
-		return repository.findAll(example);
+		if(cursoFaculdadeExample.getVagas().size() > 0) {
+			lista.stream().forEach(x -> x.setVagas(retirarExcedente(x.getVagas(), cursoFaculdadeExample.getVagas().get(0).getTipoVaga())));
+		}
+		return lista;
 	}
 		
+	private List<Vaga> retirarExcedente(List<Vaga> vagas, TipoVaga vaga){
+		return vagas.stream().filter(x -> x.getTipoVaga().getId() == vaga.getId()).collect(Collectors.toList());
+	}
 	
 
 }
