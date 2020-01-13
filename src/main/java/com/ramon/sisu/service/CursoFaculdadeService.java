@@ -1,6 +1,7 @@
  package com.ramon.sisu.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.TipoVaga;
 import com.ramon.sisu.domain.model.Vaga;
 import com.ramon.sisu.repository.CursoFaculdadeRepository;
+import com.ramon.sisu.service.exception.ObjectNotFoundException;
 
 @Service
 public class CursoFaculdadeService {
@@ -40,9 +42,26 @@ public class CursoFaculdadeService {
 
 	public List<CursoFaculdade> buscarCursoFaculdades() {
 		// TODO Auto-generated method stub
+		
 		return repository.findAll();
+		
 	}
 	
+	public CursoFaculdade findByOne(CursoFaculdade cursoFaculdadeExample) {
+		// TODO Auto-generated method stub
+		Example example = Example.of(cursoFaculdadeExample, ExampleMatcher
+				.matching()
+				.withIgnoreCase()
+				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional")
+				.withIgnoreNullValues()
+				);
+		Optional<CursoFaculdade> cursoFaculdadeOpt = repository.findOne(example);
+		if(cursoFaculdadeOpt.isPresent()) {
+			
+			return cursoFaculdadeOpt.get();
+		}
+		throw new ObjectNotFoundException("não existe curso faculdade com esses campos ");
+	}
 	
 	public List<CursoFaculdade> criarCursoFaculdadeLista(List<CursoFaculdade> lista) {
 		
