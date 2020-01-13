@@ -36,9 +36,6 @@ public class DadosNotaDeCorteDto {
 	@NotBlank
 	private String campus;
 	
-	@NotBlank
-	private Vaga vaga;
-
 	@NotNull
 	List<NotaDeCorteDto> notaDeCorteDto;
 }

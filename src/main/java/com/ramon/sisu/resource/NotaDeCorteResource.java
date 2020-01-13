@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +22,14 @@ import com.ramon.sisu.service.NotaDeCorteService;
 
 
 @RestController
-@RequestMapping("/notaDeCorte")
+@RequestMapping("/notadecorte")
 public class NotaDeCorteResource {
 
 	@Autowired
 	private NotaDeCorteService service;
 	
 	@PostMapping()
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity criarNotaDeCorte(@RequestBody @Valid DadosNotaDeCorteDto dto) {
 		
 		try {
@@ -50,11 +52,11 @@ public class NotaDeCorteResource {
 	}
 	
 	@PostMapping("/criarlista")
-	public ResponseEntity criarListaNotaDeCorte(@RequestBody @Valid List<NotaDeCorteDto> lista) {
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity criarListaNotaDeCorte(@RequestBody @Valid List<DadosNotaDeCorteDto> lista) {
 		
 		try {
-			List<NotaDeCorte> notaDeCorteList = lista.stream().map(dto -> dto.convertToEntity()).collect(Collectors.toList());
-			notaDeCorteList = service.criarNotaDeCorteLista(notaDeCorteList);
+			List<List<NotaDeCorte>> notaDeCorteList = service.criarNotaDeCorteLista(lista);
 			return new ResponseEntity(notaDeCorteList, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

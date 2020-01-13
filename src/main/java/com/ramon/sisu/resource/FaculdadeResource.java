@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class FaculdadeResource {
 	@Autowired
 	private FaculdadeService service;
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity criarFaculdade(@RequestBody @Valid FaculdadeDto dto) {
 		
 		try {
@@ -50,6 +52,7 @@ public class FaculdadeResource {
 	}
 	
 	@PostMapping("/criarLista")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity criarFaculdadeLista(@RequestBody @Valid List<FaculdadeDto> lista) {
 		
 		try {
