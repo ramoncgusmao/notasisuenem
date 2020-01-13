@@ -1,6 +1,7 @@
 package com.ramon.sisu.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Dia;
+import com.ramon.sisu.domain.model.Periodo;
 import com.ramon.sisu.repository.DiaRepository;
+import com.ramon.sisu.service.exception.ObjectNotFoundException;
 
 @Service
 public class DiaService {
@@ -38,6 +41,16 @@ public class DiaService {
 				);
 		return repository.findAll(example);
 
+	}
+	public Dia findByDiaAndPeriodo(Integer dia, Periodo periodo) {
+		
+		Optional<Dia> diaOpt = repository.findByDiaAndPeriodo(dia, periodo); 
+		
+		if(diaOpt.isPresent()) {
+			return diaOpt.get();
+		}
+		
+		throw new ObjectNotFoundException("não foi encontrado dia " + dia);
 	}
 
 }
