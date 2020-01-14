@@ -29,7 +29,7 @@ public class Faculdade {
 	@Column(length = 100, nullable = false)
 	private String nome;
 	
-	@Column(length = 8)
+	@Column(length = 15)
 	private String sigla;
 	
 	
