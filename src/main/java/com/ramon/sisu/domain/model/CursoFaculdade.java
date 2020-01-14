@@ -37,17 +37,32 @@ public class CursoFaculdade {
 	@Column(name = "redacao_peso")
 	private double redacaoPeso;
 	
+	@Column(name = "nota_minima_redacao")
+	private double notaMinimaRedacao;
+	
 	@Column(name = "natureza_peso")
 	private double naturezaPeso;
+	
+	@Column(name = "nota_minima_natureza")
+	private double notaMinimaNatureza;
 	
 	@Column(name = "humana_peso")
 	private double humanaPeso;
 	
+	@Column(name = "nota_minima_humana")
+	private double notaMinimaHumana;
+	
 	@Column(name = "linguagem_peso")
 	private double linguagemPeso;
 	
+	@Column(name = "nota_minima_linguagem")
+	private double notaMinimaLinguagem;
+	
 	@Column(name = "matematica_peso")
 	private double matematicaPeso;
+	
+	@Column(name = "nota_minima_matematica")
+	private double notaMinimaMatematica;
 	
 	@Column(name = "media_minima")
 	private double mediaMinima;
