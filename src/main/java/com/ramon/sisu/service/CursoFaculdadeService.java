@@ -52,7 +52,8 @@ public class CursoFaculdadeService {
 		Example example = Example.of(cursoFaculdadeExample, ExampleMatcher
 				.matching()
 				.withIgnoreCase()
-				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional")
+				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional"
+						,"notaMinimaRedacao","notaMinimaNatureza","notaMinimaHumana","notaMinimaLinguagem","notaMinimaMatematica")
 				.withIgnoreNullValues()
 				);
 		Optional<CursoFaculdade> cursoFaculdadeOpt = repository.findOne(example);
