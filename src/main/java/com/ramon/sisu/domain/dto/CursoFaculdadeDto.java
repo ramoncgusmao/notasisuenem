@@ -33,6 +33,16 @@ public class CursoFaculdadeDto {
 	@NotNull
 	private double mp;
 	
+	private double rn = 0.01;
+	
+	private double nn = 0.01;
+	
+	private double hn = 0.01;
+	
+	private double mn = 0.01;
+	
+	private double ln = 0.01;
+	
 	
 	private double mediaMinima;
 	
@@ -72,7 +82,12 @@ public class CursoFaculdadeDto {
 			cursoFaculdade.setCurso(Curso.builder().nome(curso).build());
 			cursoFaculdade.setVagas(vagas.stream().map(x -> x.convertToEntity()).collect(Collectors.toList()));
 			cursoFaculdade.setTurno(Turno.toEnum(turno));
-		
+			cursoFaculdade.setNotaMinimaHumana(hn);
+			cursoFaculdade.setNotaMinimaNatureza(nn);
+			cursoFaculdade.setNotaMinimaLinguagem(ln);
+			cursoFaculdade.setNotaMinimaRedacao(rn);
+			cursoFaculdade.setNotaMinimaMatematica(mn);
+			
 			return cursoFaculdade;
 	}
 
