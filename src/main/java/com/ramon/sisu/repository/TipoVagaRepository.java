@@ -10,4 +10,6 @@ public interface TipoVagaRepository extends JpaRepository<TipoVaga, Integer>{
 
 	Optional<TipoVaga> findBySigla(String sigla);
 
+	Optional<TipoVaga> findByDescricao(String descricao);
+
 }

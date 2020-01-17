@@ -12,4 +12,6 @@ public interface CampusRepository extends JpaRepository<Campus, Integer>{
 
 	Optional<Campus> findByNome(String nome);
 
+	Optional<Campus> findByNomeAndMunicipio(String upperCase, String upperCase2);
+
 }

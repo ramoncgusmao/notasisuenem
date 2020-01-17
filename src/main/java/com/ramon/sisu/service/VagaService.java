@@ -23,7 +23,7 @@ public class VagaService {
 	public Vaga validarVaga(Vaga vaga, CursoFaculdade cursoFaculdade) {
 		vaga.setCursoFaculdade(cursoFaculdade);
 		
-		vaga.setTipoVaga(tipoVagaService.findBySigla(vaga.getTipoVaga().getSigla()));
+		vaga.setTipoVaga(tipoVagaService.findByDescricao(vaga.getTipoVaga()));
 		
 		return vaga;
 	}

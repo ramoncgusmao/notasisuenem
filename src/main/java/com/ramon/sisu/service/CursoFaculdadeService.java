@@ -84,7 +84,7 @@ public class CursoFaculdadeService {
 	}
 
 	private void carregaCurso(CursoFaculdade cursoFaculdade) {
-		cursoFaculdade.setCurso(cursoService.findByNome(cursoFaculdade.getCurso().getNome()));
+		cursoFaculdade.setCurso(cursoService.findByNome(cursoFaculdade.getCurso()));
 	}
 
 	private void carregaPeriodo(CursoFaculdade cursoFaculdade) {
@@ -92,7 +92,7 @@ public class CursoFaculdadeService {
 	}
 
 	private void carregaCampus(CursoFaculdade cursoFaculdade) {
-		cursoFaculdade.setCampus(campusService.findByNome(cursoFaculdade.getCampus().getNome()));
+		cursoFaculdade.setCampus(campusService.findByNomeAndMunicipio(cursoFaculdade.getCampus()));
 	}
 
 

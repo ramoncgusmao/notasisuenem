@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.CursoFaculdade;
+import com.ramon.sisu.domain.model.Faculdade;
 import com.ramon.sisu.domain.model.Periodo;
 import com.ramon.sisu.domain.model.Turno;
 import com.sun.istack.NotNull;
@@ -54,7 +55,12 @@ public class CursoFaculdadeDto {
 	private String periodo;
 
 	@NotBlank
+	private String faculdade; 
+	@NotBlank
 	private String campus;
+	
+	@NotBlank
+	private String municipio;
 	
 	@NotBlank
 	private String curso;
@@ -78,7 +84,7 @@ public class CursoFaculdadeDto {
 			cursoFaculdade.setPossuiCotaRegional(possuiCotaRegional);
 			cursoFaculdade.setPorcentagemRegional(porcentagemRegional);
 			cursoFaculdade.setPeriodo(Periodo.builder().nome(periodo).build());
-			cursoFaculdade.setCampus(Campus.builder().nome(campus).build());
+			cursoFaculdade.setCampus(Campus.builder().nome(campus).municipio(municipio).faculdade(Faculdade.builder().sigla(faculdade).build()).build());
 			cursoFaculdade.setCurso(Curso.builder().nome(curso).build());
 			cursoFaculdade.setVagas(vagas.stream().map(x -> x.convertToEntity()).collect(Collectors.toList()));
 			cursoFaculdade.setTurno(Turno.toEnum(turno));

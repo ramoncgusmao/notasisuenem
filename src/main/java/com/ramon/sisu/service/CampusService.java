@@ -24,6 +24,9 @@ public class CampusService {
 	public Campus criarCampus(Campus campus) {
 		
 		try {
+			campus.setMunicipio(campus.getMunicipio().toUpperCase());
+
+			campus.setNome(campus.getNome().toUpperCase());
 			carregarFaculdade(campus);
 			return repository.save(campus);
 		} catch (DataException e) {
@@ -52,6 +55,16 @@ public class CampusService {
 		}
 		
 		throw new ObjectNotFoundException("nao foi encontrado campus " + nome);
+	}
+	public Campus findByNomeAndMunicipio(Campus campus) {
+			Optional<Campus> campusOpt = repository.findByNomeAndMunicipio(campus.getNome().toUpperCase(),campus.getMunicipio().toUpperCase());
+		
+		if(campusOpt.isPresent()) {
+			return campusOpt.get();
+		}
+		
+	 
+		return criarCampus(campus);
 	}
 
 }
