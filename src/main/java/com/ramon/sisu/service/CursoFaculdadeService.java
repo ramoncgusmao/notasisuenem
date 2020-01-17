@@ -35,8 +35,8 @@ public class CursoFaculdadeService {
 
 	
 	public CursoFaculdade criarCursoFaculdade(CursoFaculdade cursoFaculdade) {
-		validarCursoFaculdade(cursoFaculdade);
-		return repository.save(cursoFaculdade);
+		CursoFaculdade curFaculdade =  validarCursoFaculdade(cursoFaculdade);
+		return repository.save(curFaculdade);
 	}
 
 
@@ -66,16 +66,27 @@ public class CursoFaculdadeService {
 	
 	public List<CursoFaculdade> criarCursoFaculdadeLista(List<CursoFaculdade> lista) {
 		
-		lista.forEach(cursoFaculdade -> validarCursoFaculdade(cursoFaculdade));
-		return repository.saveAll(lista);
+		
+		return lista.stream().map(curso -> criarCursoFaculdade(curso)).collect(Collectors.toList());
 	}
 
 	
-	public void validarCursoFaculdade(CursoFaculdade cursoFaculdade) {
+	public CursoFaculdade validarCursoFaculdade(CursoFaculdade cursoFaculdade) {
 		carregaCampus(cursoFaculdade);
 		carregaPeriodo(cursoFaculdade);
 		carregaCurso(cursoFaculdade);
 		carregaListaVagas(cursoFaculdade);
+		try {
+			CursoFaculdade cursoFaculdadeNovo = findByOne(cursoFaculdade);
+			long count = cursoFaculdade.getVagas().stream().filter(v -> v.getTipoVaga() == cursoFaculdade.getVagas().get(0).getTipoVaga()).count();
+			if(count == 0) {
+				cursoFaculdade.getVagas().add(cursoFaculdade.getVagas().get(0));
+			}
+			return cursoFaculdadeNovo;
+		} catch (Exception e) {
+			return cursoFaculdade;
+		}
+		
 		
 	}
 

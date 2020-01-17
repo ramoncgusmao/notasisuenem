@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ramon.sisu.domain.dto.CursoDto;
@@ -53,10 +54,11 @@ public class CursoResource {
 		}
 	}
 	@GetMapping()
-	public ResponseEntity buscarCursos() {
+	public ResponseEntity buscarCursos(@RequestParam(value = "nome", defaultValue = "") String nome) {
 		
 		try {
-			List<Curso> cursos = service.buscarCursos();
+			
+			List<Curso> cursos = service.buscarCursos(nome);
 			return new ResponseEntity(cursos, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

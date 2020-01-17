@@ -28,6 +28,7 @@ public class CampusService {
 
 			campus.setNome(campus.getNome().toUpperCase());
 			carregarFaculdade(campus);
+			campus.setNome(campus.getNome().toUpperCase());
 			return repository.save(campus);
 		} catch (DataException e) {
 			throw new DataIntegrityException("erro ao salvar: " + e.getMessage());

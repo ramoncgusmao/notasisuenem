@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.Faculdade;
@@ -41,14 +44,18 @@ public class FaculdadeService {
 		carregarEstadoNaFaculdade(faculdade);
 	}
 
-	public List<Faculdade> find(Integer id) {
+	public List<Faculdade> find(String nome) {
+		Faculdade faculdadeExample = Faculdade.builder().nome(nome).build();
+		
+		Example example = Example.of(faculdadeExample, ExampleMatcher
+				.matching()
+				.withIgnoreCase()
+				.withIgnorePaths("id")
+				.withStringMatcher(StringMatcher.CONTAINING));
+		
+			return repository.findAll(example);
 
-		if (id == null) {
-			return repository.findAll();
-
-		} else {
-			return repository.findByEstado_id(id);
-		}
+	
 	}
 
 	public List<Faculdade> saveList(List<Faculdade> faculdades) {

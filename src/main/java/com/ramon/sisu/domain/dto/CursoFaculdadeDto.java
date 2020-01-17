@@ -45,14 +45,14 @@ public class CursoFaculdadeDto {
 	private double ln = 0.01;
 	
 	
-	private double mediaMinima;
+	private double mediaMinima = 0.01;
 	
-	private boolean possuiCotaRegional;
+	private boolean possuiCotaRegional = false;
 	
 	private double porcentagemRegional;
 	
-	@NotBlank
-	private String periodo;
+	
+	private String periodo = "2020.1";
 
 	@NotBlank
 	private String faculdade; 
