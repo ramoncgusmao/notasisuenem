@@ -30,6 +30,9 @@ public class NotaIndividualRespostaDto {
 	@JsonIgnore
 	private Double notaOrder;
 	
+	private int vagaAmplaConcorrencia;
+	
+	private String cidade;
 	
 	
 }

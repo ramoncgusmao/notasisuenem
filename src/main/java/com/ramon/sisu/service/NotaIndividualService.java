@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
@@ -51,28 +52,65 @@ public class NotaIndividualService {
 
 		NotaIndividualRespostaDto notaIndividualRespostaDto = new NotaIndividualRespostaDto();
 
-		notaIndividualRespostaDto.setId(cursoFaculdade.getId());
-		notaIndividualRespostaDto.setEstado(cursoFaculdade.getCampus().getFaculdade().getEstado().getSigla());
-		notaIndividualRespostaDto.setFaculdade(cursoFaculdade.getCampus().getFaculdade().getSigla());
-		notaIndividualRespostaDto.setCampus(cursoFaculdade.getCampus().getNome());
-		notaIndividualRespostaDto.setCurso(cursoFaculdade.getCurso().getNome());
-		DecimalFormat df = new DecimalFormat("#.####");
-		df.setRoundingMode(RoundingMode.HALF_UP);
-		double calcular = calcularMedia(cursoFaculdade, notaIndividual);
-		notaIndividualRespostaDto.setNotaOrder(calcular);
-		notaIndividualRespostaDto.setNota(df.format(calcular));
-		if(cursoFaculdade.isPossuiCotaRegional()) {
-			double porcentagem = (cursoFaculdade.getPorcentagemRegional()+100)/100;
-			notaIndividualRespostaDto.setNotaCotaRegional(df.format(calcular*porcentagem));
-		}else {
-			notaIndividualRespostaDto.setNotaCotaRegional("-");
-		}
+		carregarValoresCursoFaculdade(cursoFaculdade, notaIndividualRespostaDto);
+
+		
+		notaIndividualRespostaDto.setVagaAmplaConcorrencia(quantidadeVagaAmplaConcorrencia(cursoFaculdade));
+		
+		carregarValoresMedia(cursoFaculdade, notaIndividualRespostaDto, notaIndividual);
 		
 		
 		notaIndividualRespostaDto.setVagas(cursoFaculdade.sumQuantidadeVagas());
+		
 		return notaIndividualRespostaDto;
 	}
 
+
+
+	private void carregarValoresCursoFaculdade(CursoFaculdade cursoFaculdade,
+			NotaIndividualRespostaDto notaIndividualRespostaDto) {
+		notaIndividualRespostaDto.setId(cursoFaculdade.getId());
+		
+		notaIndividualRespostaDto.setEstado(cursoFaculdade.getCampus().getFaculdade().getEstado().getSigla());
+		notaIndividualRespostaDto.setFaculdade(cursoFaculdade.getCampus().getFaculdade().getSigla());
+		notaIndividualRespostaDto.setCampus(cursoFaculdade.getCampus().getNome());
+		notaIndividualRespostaDto.setCidade(cursoFaculdade.getCampus().getMunicipio());
+		notaIndividualRespostaDto.setCurso(cursoFaculdade.getCurso().getNome());
+	}
+
+
+
+	private void carregarValoresMedia(CursoFaculdade cursoFaculdade,
+			NotaIndividualRespostaDto notaIndividualRespostaDto, NotaIndividual notaIndividual) {
+
+		double media = calcularMedia(cursoFaculdade, notaIndividual);
+		notaIndividualRespostaDto.setNotaOrder(media);
+		notaIndividualRespostaDto.setNota(converterEmString(media));
+		if(cursoFaculdade.isPossuiCotaRegional()) {
+			double porcentagem = (cursoFaculdade.getPorcentagemRegional()+100)/100;
+			notaIndividualRespostaDto.setNotaCotaRegional(converterEmString(media*porcentagem));
+		}else {
+			notaIndividualRespostaDto.setNotaCotaRegional("-");
+		}
+	}
+
+
+
+	private String converterEmString(double valor) {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		return df.format(valor);
+	}
+
+	
+	private int quantidadeVagaAmplaConcorrencia(CursoFaculdade cursoFaculdade) {
+		Optional<Vaga> vagaopt = cursoFaculdade.getVagas().stream().filter(x -> x.getTipoVaga().getDescricao().equals("Ampla concorrência")).findFirst();
+		
+		if(vagaopt.isPresent()) {
+			return vagaopt.get().getQuantidade();
+		}
+		return 0;
+	}
 
 
 	private double calcularMediaNormal(NotaIndividual notaIndividual) {
