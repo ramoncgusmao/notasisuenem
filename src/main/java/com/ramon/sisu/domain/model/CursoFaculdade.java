@@ -91,14 +91,22 @@ public class CursoFaculdade {
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
 	
-	@OneToMany(mappedBy = "cursoFaculdade", fetch = FetchType.EAGER, targetEntity = Vaga.class,
-            cascade=CascadeType.ALL, orphanRemoval = true)
-	@Fetch(value=FetchMode.JOIN)
+	@OneToMany(mappedBy = "cursoFaculdade", 
+            cascade=CascadeType.PERSIST, orphanRemoval = true)
 	private List<Vaga> vagas = new ArrayList<>();
 	
 	
 	public double sumPesos() {
 		return (redacaoPeso + naturezaPeso + matematicaPeso + humanaPeso + linguagemPeso);
+	}
+
+
+	public int sumQuantidadeVagas() {
+		if(vagas.size() == 0) {
+			return 0;
+			
+		}
+		return vagas.stream().mapToInt(vaga -> vaga.getQuantidade()).sum();
 	}
 	
 }

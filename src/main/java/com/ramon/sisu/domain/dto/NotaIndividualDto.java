@@ -12,11 +12,8 @@ import lombok.Data;
 @Data
 public class NotaIndividualDto {
 
+	@NotNull
 	private Integer curso;
-	
-	private Integer faculdade;
-	
-	private Integer tipoVaga;
 	
 	@NotNull
 	private double notaRedacao;
@@ -40,24 +37,11 @@ public class NotaIndividualDto {
 		notaIndividual.setNotaLinguagens(notaLinguagens);
 		notaIndividual.setNotaMatematica(notaMatematica);
 		
-		if(curso != null) {
-			notaIndividual.setCurso(Curso.builder().id(curso).build());
-			flagFiltro = true;
-		}
+		notaIndividual.setCurso(Curso.builder().id(curso).build());
+
 		
-		if(faculdade != null) {
-			notaIndividual.setFaculdade(Faculdade.builder().id(faculdade).build());
-			flagFiltro = true;
-		}
 		
-		if(tipoVaga != null) {
-			notaIndividual.setTipoVaga(TipoVaga.builder().id(tipoVaga).build());
-			flagFiltro = true;
-		}
 		
-		if(!flagFiltro) {
-			throw new ObjectNotFoundException("não possui nenhum dos parametros de filtro");
-		}
 		return notaIndividual;
 		
 	}

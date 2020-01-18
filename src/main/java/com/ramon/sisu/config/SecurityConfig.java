@@ -49,6 +49,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 			"/estado/**"
 	};
 	
+private static final String[] PUBLIC_MATCHERS_POST = {
+			
+			"/notaindividual/**"
+			
+	};
 	private static final String[] SWAGGER = {
 			
 			"/v2/api-docs",
@@ -66,6 +71,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 			.antMatchers(SWAGGER).permitAll()
 			.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));

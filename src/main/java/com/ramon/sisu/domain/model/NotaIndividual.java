@@ -9,10 +9,6 @@ public class NotaIndividual {
 
 	private Curso curso;
 	
-	private Faculdade faculdade;
-	
-	private TipoVaga tipoVaga;
-	
 	private double notaRedacao;
 	
 	private double notaNatureza;

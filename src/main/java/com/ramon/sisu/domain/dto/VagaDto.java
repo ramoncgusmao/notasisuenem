@@ -21,7 +21,7 @@ public class VagaDto {
 		// TODO Auto-generated method stub
 		return Vaga.builder()
 				.quantidade(quantidade)
-				.tipoVaga(TipoVaga.builder().sigla(tipoVaga).build())
+				.tipoVaga(TipoVaga.builder().descricao(tipoVaga).build())
 				.build();
 	}
 }

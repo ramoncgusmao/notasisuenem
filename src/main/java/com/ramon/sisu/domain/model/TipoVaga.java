@@ -24,13 +24,13 @@ public class TipoVaga {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 100, nullable = false)
+	@Column(length = 100, nullable = true)
 	private String resumo;
 	
-	@Column(length = 10, nullable = false)
+	@Column(length = 10, nullable = true)
 	private String sigla;
 	
-	@Column(length = 400, nullable = false)
+	@Column(length = 800, nullable = false)
 	private String descricao;
 	
 }

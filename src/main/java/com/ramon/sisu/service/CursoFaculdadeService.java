@@ -57,6 +57,7 @@ public class CursoFaculdadeService {
 				.withIgnoreNullValues()
 				);
 		Optional<CursoFaculdade> cursoFaculdadeOpt = repository.findOne(example);
+		
 		if(cursoFaculdadeOpt.isPresent()) {
 			
 			return cursoFaculdadeOpt.get();
@@ -78,12 +79,14 @@ public class CursoFaculdadeService {
 		carregaListaVagas(cursoFaculdade);
 		try {
 			CursoFaculdade cursoFaculdadeNovo = findByOne(cursoFaculdade);
-			long count = cursoFaculdade.getVagas().stream().filter(v -> v.getTipoVaga() == cursoFaculdade.getVagas().get(0).getTipoVaga()).count();
-			if(count == 0) {
-				cursoFaculdade.getVagas().add(cursoFaculdade.getVagas().get(0));
-			}
+			
+				
+				System.out.println("era pra salvar");
+			vagaService.salvar(cursoFaculdadeNovo, cursoFaculdade.getVagas().get(0));
+			
 			return cursoFaculdadeNovo;
 		} catch (Exception e) {
+			System.out.println(e.getMessage() + "  " + e.getCause());
 			return cursoFaculdade;
 		}
 		
@@ -111,7 +114,8 @@ public class CursoFaculdadeService {
 		Example example = Example.of(cursoFaculdadeExample, ExampleMatcher
 				.matching()
 				.withIgnoreCase()
-				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional")
+				.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima", "redacaoPeso", "possuiCotaRegional","porcentagemRegional"
+						,"notaMinimaRedacao","notaMinimaNatureza","notaMinimaHumana","notaMinimaLinguagem","notaMinimaMatematica")
 				.withIgnoreNullValues()
 				);
 		List<CursoFaculdade> lista = repository.findAll(example);

@@ -57,7 +57,9 @@ public class TipoVagaService {
 		if(tipoVagaOpt.isPresent()) {
 			return tipoVagaOpt.get();
 		}
-	
+		tipoVaga.setSigla("lixo");
+		tipoVaga.setResumo("lixo");
+		
 		return criarTipoVaga(tipoVaga);
 	}
 	

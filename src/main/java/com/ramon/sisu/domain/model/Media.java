@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Media {
 
-	private Vaga vaga;
+	private CursoFaculdade cursoFaculdade;
 	
 	private double nota;
 	

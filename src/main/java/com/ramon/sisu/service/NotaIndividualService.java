@@ -1,5 +1,7 @@
 package com.ramon.sisu.service;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ramon.sisu.domain.dto.NotaIndividualRespostaDto;
 import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Media;
@@ -32,18 +35,32 @@ public class NotaIndividualService {
 	@Autowired
 	public TipoVagaService tipoVagaService;
 	
-	public NotaIndividual buscarNotas(NotaIndividual notaIndividual) {
+	public List<NotaIndividualRespostaDto> buscarNotas(NotaIndividual notaIndividual) {
 		List<CursoFaculdade> cursosFaculdade = buscarListaDeFaculdades(notaIndividual);
 		
 		notaIndividual.setMediaNormal(calcularMediaNormal(notaIndividual));
-		List<Media> medias = cursosFaculdade.stream().map( x -> new Media(x.getVagas().get(0), calcularMedia(x, notaIndividual))).collect(Collectors.toList());
-		notaIndividual.setMedias(medias);
-		
-		return notaIndividual;
+		List<NotaIndividualRespostaDto> resposta = cursosFaculdade.stream().map( x -> converterNotaIndividualResposta(x, notaIndividual)).collect(Collectors.toList());
+	
+		return resposta;
 	}
 
 	
 	
+	private NotaIndividualRespostaDto converterNotaIndividualResposta(CursoFaculdade cursoFaculdade, NotaIndividual notaIndividual) {
+		NotaIndividualRespostaDto notaIndividualRespostaDto = new NotaIndividualRespostaDto();
+		notaIndividualRespostaDto.setEstado(cursoFaculdade.getCampus().getFaculdade().getEstado().getSigla());
+		notaIndividualRespostaDto.setFaculdade(cursoFaculdade.getCampus().getFaculdade().getSigla());
+		notaIndividualRespostaDto.setCampus(cursoFaculdade.getCampus().getNome());
+		notaIndividualRespostaDto.setCurso(cursoFaculdade.getCurso().getNome());
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		notaIndividualRespostaDto.setNota(df.format(calcularMedia(cursoFaculdade, notaIndividual)));
+		notaIndividualRespostaDto.setVagas(cursoFaculdade.sumQuantidadeVagas());
+		return notaIndividualRespostaDto;
+	}
+
+
+
 	private double calcularMediaNormal(NotaIndividual notaIndividual) {
 		double media = 	notaIndividual.getNotaHumanas()
 				+ notaIndividual.getNotaRedacao()
@@ -75,9 +92,6 @@ public class NotaIndividualService {
 		CursoFaculdade cursoFaculdadeExample = new CursoFaculdade();
 		
 		carregarCurso(notaIndividual, cursoFaculdadeExample);
-		carregarFaculdade(notaIndividual, cursoFaculdadeExample);
-		carregarTipoVaga(notaIndividual, cursoFaculdadeExample);
-	
 		
 		return cursoFaculdadeService.findAll(cursoFaculdadeExample);
 	} catch (Exception e) {
@@ -90,24 +104,13 @@ public class NotaIndividualService {
 		if(notaIndividual.getCurso() != null) {
 			cursoFaculdadeExample.setCurso(cursoService
 											.findById(notaIndividual.getCurso().getId()));
+			
+			System.out.println(cursoFaculdadeExample.getCurso());
 		}
 	}
 
-	private void carregarFaculdade(NotaIndividual notaIndividual, CursoFaculdade cursoFaculdadeExample) {
-		if(notaIndividual.getFaculdade() != null) {
-			cursoFaculdadeExample.setCampus(Campus.builder()
-					.faculdade(faculdadeService.findById(notaIndividual.getFaculdade().getId()))
-					.build());
-		
-		}
-	}
+	
 
-	private void carregarTipoVaga(NotaIndividual notaIndividual, CursoFaculdade cursoFaculdadeExample) {
-		if(notaIndividual.getTipoVaga() != null) {
-				cursoFaculdadeExample.setVagas(Arrays.asList(Vaga.builder()
-						.tipoVaga(tipoVagaService.findById(notaIndividual.getTipoVaga().getId()))
-						.build()));
-		}
-	}
+	
 
 }

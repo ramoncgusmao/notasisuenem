@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Vaga;
+import com.ramon.sisu.repository.VagaRepository;
 
 @Service
 public class VagaService {
@@ -15,6 +16,8 @@ public class VagaService {
 	@Autowired
 	public TipoVagaService tipoVagaService;
 	
+	@Autowired
+	public VagaRepository repository;
 	public List<Vaga> validaLista(List<Vaga> vagas, CursoFaculdade cursoFaculdade) {
 		// TODO Auto-generated method stub
 		return vagas.stream().map(x -> validarVaga(x, cursoFaculdade)).collect(Collectors.toList());
@@ -26,6 +29,13 @@ public class VagaService {
 		vaga.setTipoVaga(tipoVagaService.findByDescricao(vaga.getTipoVaga()));
 		
 		return vaga;
+	}
+
+	public void salvar(CursoFaculdade cursoFaculdadeNovo, Vaga vaga) {
+		vaga.setCursoFaculdade(cursoFaculdadeNovo);
+		
+		cursoFaculdadeNovo.getVagas().add(repository.save(vaga));
+		
 	}
 
 

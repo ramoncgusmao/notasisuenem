@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ramon.sisu.domain.dto.NotaIndividualDto;
+import com.ramon.sisu.domain.dto.NotaIndividualRespostaDto;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.NotaIndividual;
 import com.ramon.sisu.service.NotaIndividualService;
@@ -34,8 +35,8 @@ public class NotaIndividualResource {
 		try {
 			
 			NotaIndividual notaIndividual = dto.convertToEntity();
-			notaIndividual = service.buscarNotas(notaIndividual);
-			return ResponseEntity.ok(notaIndividual);
+			List<NotaIndividualRespostaDto >notaIndividualRespostaDtos = service.buscarNotas(notaIndividual);
+			return ResponseEntity.ok(notaIndividualRespostaDtos);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
