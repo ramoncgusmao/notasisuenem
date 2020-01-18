@@ -46,12 +46,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 			"/notaindividual/**",
 			"/faculdade/**",
 			"/cursofaculdade/**",
-			"/estado/**"
+			"/estado/**",
+			"/mediacurso/**"
 	};
 	
 private static final String[] PUBLIC_MATCHERS_POST = {
 			
-			"/notaindividual/**"
+			"/mediacurso**"
 			
 	};
 	private static final String[] SWAGGER = {
