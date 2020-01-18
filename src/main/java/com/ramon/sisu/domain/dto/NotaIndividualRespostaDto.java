@@ -1,5 +1,7 @@
 package com.ramon.sisu.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NotaIndividualRespostaDto {
 
+	private Integer id;
+	
 	private String estado;
 	
 	private String Faculdade;
@@ -19,7 +23,13 @@ public class NotaIndividualRespostaDto {
 	
 	private String nota;
 	
-	private double notaCotaRegional;
+	private String notaCotaRegional;
 	
 	private int vagas;
+	
+	@JsonIgnore
+	private Double notaOrder;
+	
+	
+	
 }

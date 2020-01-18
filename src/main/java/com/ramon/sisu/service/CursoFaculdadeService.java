@@ -80,9 +80,15 @@ public class CursoFaculdadeService {
 		try {
 			CursoFaculdade cursoFaculdadeNovo = findByOne(cursoFaculdade);
 			
-				
-				System.out.println("era pra salvar");
-			vagaService.salvar(cursoFaculdadeNovo, cursoFaculdade.getVagas().get(0));
+				if(cursoFaculdade.isPossuiCotaRegional()) {
+					cursoFaculdadeNovo.setPossuiCotaRegional(cursoFaculdade.isPossuiCotaRegional());
+					cursoFaculdadeNovo.setPorcentagemRegional(cursoFaculdade.getPorcentagemRegional());
+				}
+				if(cursoFaculdade.getVagas().size() > 0) {
+					vagaService.salvar(cursoFaculdadeNovo, cursoFaculdade.getVagas().get(0));
+					
+				}
+					
 			
 			return cursoFaculdadeNovo;
 		} catch (Exception e) {

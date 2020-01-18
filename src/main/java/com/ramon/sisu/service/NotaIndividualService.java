@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,21 +41,34 @@ public class NotaIndividualService {
 		
 		notaIndividual.setMediaNormal(calcularMediaNormal(notaIndividual));
 		List<NotaIndividualRespostaDto> resposta = cursosFaculdade.stream().map( x -> converterNotaIndividualResposta(x, notaIndividual)).collect(Collectors.toList());
-	
-		return resposta;
+		 
+		return resposta.stream().sorted(Comparator.comparing(NotaIndividualRespostaDto::getNotaOrder).reversed()).collect(Collectors.toList());
 	}
 
 	
 	
 	private NotaIndividualRespostaDto converterNotaIndividualResposta(CursoFaculdade cursoFaculdade, NotaIndividual notaIndividual) {
+
 		NotaIndividualRespostaDto notaIndividualRespostaDto = new NotaIndividualRespostaDto();
+
+		notaIndividualRespostaDto.setId(cursoFaculdade.getId());
 		notaIndividualRespostaDto.setEstado(cursoFaculdade.getCampus().getFaculdade().getEstado().getSigla());
 		notaIndividualRespostaDto.setFaculdade(cursoFaculdade.getCampus().getFaculdade().getSigla());
 		notaIndividualRespostaDto.setCampus(cursoFaculdade.getCampus().getNome());
 		notaIndividualRespostaDto.setCurso(cursoFaculdade.getCurso().getNome());
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.HALF_UP);
-		notaIndividualRespostaDto.setNota(df.format(calcularMedia(cursoFaculdade, notaIndividual)));
+		double calcular = calcularMedia(cursoFaculdade, notaIndividual);
+		notaIndividualRespostaDto.setNotaOrder(calcular);
+		notaIndividualRespostaDto.setNota(df.format(calcular));
+		if(cursoFaculdade.isPossuiCotaRegional()) {
+			double porcentagem = (cursoFaculdade.getPorcentagemRegional()+100)/100;
+			notaIndividualRespostaDto.setNotaCotaRegional(df.format(calcular*porcentagem));
+		}else {
+			notaIndividualRespostaDto.setNotaCotaRegional("-");
+		}
+		
+		
 		notaIndividualRespostaDto.setVagas(cursoFaculdade.sumQuantidadeVagas());
 		return notaIndividualRespostaDto;
 	}

@@ -36,7 +36,7 @@ public class CampusService {
 		
 	}
 	private void carregarFaculdade(Campus campus) {
-		campus.setFaculdade(faculdadeService.findBySigla(campus.getFaculdade().getSigla()));
+		campus.setFaculdade(faculdadeService.findBySigla(campus.getFaculdade().getSigla().toUpperCase()));
 	}
 	public List<Campus> buscarCampuss() {
 		// TODO Auto-generated method stub
