@@ -10,12 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ramon.sisu.domain.dto.CursoFaculdadeDto;
+import com.ramon.sisu.domain.dto.CursoFaculdadeEditarDto;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.service.CursoFaculdadeService;
 
@@ -59,6 +62,20 @@ public class CursoFaculdadeResource {
 			List<CursoFaculdade> cursoFaculdadeList = lista.stream().map(dto -> dto.convertToEntity()).collect(Collectors.toList());
 			cursoFaculdadeList = service.criarCursoFaculdadeLista(cursoFaculdadeList);
 			return new ResponseEntity(cursoFaculdadeList, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	
+	@PutMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity editarCursoFaculdade(@PathVariable Integer id, @RequestBody CursoFaculdadeEditarDto curso) {
+		
+		try {
+			CursoFaculdade cursoFaculdade = curso.convertToEntity();
+			 cursoFaculdade = service.editarCursoFaculdade(id, cursoFaculdade);
+			return ResponseEntity.ok(cursoFaculdade);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
