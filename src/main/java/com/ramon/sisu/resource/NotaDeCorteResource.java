@@ -1,7 +1,6 @@
 package com.ramon.sisu.resource;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ramon.sisu.domain.dto.DadosNotaDeCorteDto;
-import com.ramon.sisu.domain.dto.NotaDeCorteDto;
 import com.ramon.sisu.domain.model.NotaDeCorte;
 import com.ramon.sisu.service.NotaDeCorteService;
 
@@ -33,8 +31,8 @@ public class NotaDeCorteResource {
 	public ResponseEntity criarNotaDeCorte(@RequestBody @Valid DadosNotaDeCorteDto dto) {
 		
 		try {
-			List<NotaDeCorte> notaDeCortes = service.criarNotaDeCorte(dto);
-			return new ResponseEntity(notaDeCortes, HttpStatus.CREATED);
+			NotaDeCorte notaDeCorte = service.criarNotaDeCorte(dto);
+			return new ResponseEntity(notaDeCorte, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
@@ -56,7 +54,7 @@ public class NotaDeCorteResource {
 	public ResponseEntity criarListaNotaDeCorte(@RequestBody @Valid List<DadosNotaDeCorteDto> lista) {
 		
 		try {
-			List<List<NotaDeCorte>> notaDeCorteList = service.criarNotaDeCorteLista(lista);
+			List<NotaDeCorte> notaDeCorteList = service.criarNotaDeCorteLista(lista);
 			return new ResponseEntity(notaDeCorteList, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
-import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.repository.CampusRepository;
 import com.ramon.sisu.service.exception.DataIntegrityException;
@@ -68,4 +70,23 @@ public class CampusService {
 		return criarCampus(campus);
 	}
 
+	public Campus findByOne(Campus campusExample) {
+		campusExample.setFaculdade(faculdadeService.findBySigla(campusExample.getFaculdade().getSigla()));
+		
+		Example<Campus> example = Example.of(campusExample, ExampleMatcher
+				.matching()
+				.withIgnoreCase()
+				.withIgnorePaths("id")
+				.withStringMatcher(StringMatcher.CONTAINING));
+	
+		
+		Optional<Campus> campusOpt = repository.findOne(example);
+		
+		if(campusOpt.isPresent()) {
+		return campusOpt.get();
+	}
+	
+ 
+	throw new ObjectNotFoundException("não encontrado o campus " + campusExample.getNome());
+}
 }

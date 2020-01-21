@@ -4,18 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.ramon.sisu.domain.dto.DadosNotaDeCorteDto;
-import com.ramon.sisu.domain.dto.NotaDeCorteDto;
 import com.ramon.sisu.domain.model.Campus;
 import com.ramon.sisu.domain.model.Curso;
 import com.ramon.sisu.domain.model.CursoFaculdade;
 import com.ramon.sisu.domain.model.Dia;
+import com.ramon.sisu.domain.model.Faculdade;
 import com.ramon.sisu.domain.model.NotaDeCorte;
 import com.ramon.sisu.domain.model.Periodo;
 import com.ramon.sisu.domain.model.Vaga;
@@ -43,38 +40,44 @@ public class NotaDeCorteService {
 	
 	@Autowired
 	private NotaDeCorteRepository repository;
-	public List<NotaDeCorte> criarNotaDeCorte(DadosNotaDeCorteDto dto) {
+	public NotaDeCorte criarNotaDeCorte(DadosNotaDeCorteDto dto) {
 		
 		Periodo periodo = periodoService.findByNome(dto.getPeriodo());
 		CursoFaculdade cursoFaculdade = buscarCursoFaculdade(dto, periodo);
 		Dia dia = diaService.findByDiaAndPeriodo(dto.getDia(), periodo);
+		Optional<Vaga> vagaOpt = cursoFaculdade.getVagas().stream().filter(vaga -> vaga.getTipoVaga().getSigla().equals(dto.getSiglaTipoVaga()) && vaga.getQuantidade() > 0).findFirst();
 		
-		List<NotaDeCorte> notasDeCorte = cursoFaculdade.getVagas().stream().map(vaga -> converterEmNotaDeCorte(dia, vaga, dto.getNotaDeCorteDto())).collect(Collectors.toList());
-	
-		return repository.saveAll(notasDeCorte);
-	}
-
-	private NotaDeCorte converterEmNotaDeCorte(Dia dia, Vaga vaga, List<NotaDeCorteDto> notaDeCorteDto) {
-		Optional<NotaDeCorteDto> notaOpt = notaDeCorteDto.stream().filter( x -> x.getTipoVaga().equals(vaga.getTipoVaga().getSigla())).findFirst();
-		
-		if(notaOpt.isPresent()) {
-			return NotaDeCorte.builder().dia(dia).vaga(vaga).nota(notaOpt.get().getNota()).build();
+		if(!vagaOpt.isPresent()) {
+			throw new ObjectNotFoundException("não foi encontrado vaga com esses parametros" + dto.getCampus() + " " + dto.getCurso());
 		}
 		
-		throw new ObjectNotFoundException(" nao existe a nota para a vaga : " + vaga.getTipoVaga().getSigla());
-		
+		NotaDeCorte notasDeCorte = converterEmNotaDeCorte(dia, vagaOpt.get(), dto.getNotaDeCorte());
+	
+		return repository.save(notasDeCorte);
+	}
+
+	private NotaDeCorte converterEmNotaDeCorte(Dia dia, Vaga vaga, double notaDeCorte) {
+			return NotaDeCorte.builder().dia(dia).vaga(vaga).nota(notaDeCorte).build();
 	}
 
 	public CursoFaculdade buscarCursoFaculdade(DadosNotaDeCorteDto dto, Periodo periodo) {
-		
-		Curso curso = cursoService.findByNome(dto.getCurso());
-		Campus campus = campusService.findByNome(dto.getCampus());
-		CursoFaculdade cursoFaculdade = new CursoFaculdade();
-		cursoFaculdade.setCampus(campus);
-		cursoFaculdade.setCurso(curso);
-		cursoFaculdade.setPeriodo(periodo);
-		
-		return cursoFaculdadeService.findByOne(cursoFaculdade);
+		try {
+			Curso curso = cursoService.findByNome(dto.getCurso());
+			Campus campus = campusService.findByNomeAndMunicipio(Campus.builder()
+									.nome(dto.getCampus())
+									.faculdade(Faculdade.builder().sigla(dto.getSiglaFaculdade()).build())
+									.build());
+			CursoFaculdade cursoFaculdade = new CursoFaculdade();
+			cursoFaculdade.setCampus(campus);
+			cursoFaculdade.setCurso(curso);
+			cursoFaculdade.setPeriodo(periodo);
+			
+			return cursoFaculdadeService.findByOne(cursoFaculdade);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new ObjectNotFoundException(e.getMessage());
+		}
+	
 	}
 
 	public List<NotaDeCorte> buscarNotaDeCortes() {
@@ -82,8 +85,8 @@ public class NotaDeCorteService {
 		return repository.findAll();
 	}
 
-	public List<List<NotaDeCorte>> criarNotaDeCorteLista(@Valid List<DadosNotaDeCorteDto> lista) {
-		List<List<NotaDeCorte>> notasDeCorte = lista.stream().map(notaDeCorte -> criarNotaDeCorte(notaDeCorte)).collect(Collectors.toList());
+	public List<NotaDeCorte> criarNotaDeCorteLista( List<DadosNotaDeCorteDto> lista) {
+		List<NotaDeCorte> notasDeCorte = lista.stream().map(notaDeCorte -> criarNotaDeCorte(notaDeCorte)).collect(Collectors.toList());
 		return notasDeCorte;
 	}
 

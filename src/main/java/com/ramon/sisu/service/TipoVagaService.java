@@ -62,6 +62,15 @@ public class TipoVagaService {
 		
 		return criarTipoVaga(tipoVaga);
 	}
+
+	public TipoVaga update(Integer id, TipoVaga tipoVaga) {
+		TipoVaga tipoVagaSalvo = findById(id);
+
+		tipoVagaSalvo.setDescricao(tipoVaga.getDescricao() != null ? tipoVaga.getDescricao() : tipoVagaSalvo.getDescricao());
+		tipoVagaSalvo.setResumo(tipoVaga.getResumo() != null  ? tipoVaga.getResumo() : tipoVagaSalvo.getResumo());
+		tipoVagaSalvo.setSigla(tipoVaga.getSigla() != null ? tipoVaga.getSigla() : tipoVagaSalvo.getSigla());
+		return criarTipoVaga(tipoVagaSalvo);
+	}
 	
 
 	

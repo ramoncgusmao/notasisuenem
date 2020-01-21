@@ -47,7 +47,7 @@ public class FaculdadeService {
 	public List<Faculdade> find(String nome) {
 		Faculdade faculdadeExample = Faculdade.builder().nome(nome).build();
 		
-		Example example = Example.of(faculdadeExample, ExampleMatcher
+		Example<Faculdade> example = Example.of(faculdadeExample, ExampleMatcher
 				.matching()
 				.withIgnoreCase()
 				.withIgnorePaths("id")
