@@ -93,6 +93,11 @@ public class NotaDeCorteService {
 		return notasDeCorte;
 	}
 
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		repository.deleteAll();
+	}
+
 
 
 }
