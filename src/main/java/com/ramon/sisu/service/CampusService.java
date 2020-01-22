@@ -20,11 +20,12 @@ public class CampusService {
 
 	@Autowired
 	private CampusRepository repository;
-	
+
 	@Autowired
 	private FaculdadeService faculdadeService;
+
 	public Campus criarCampus(Campus campus) {
-		
+
 		try {
 			campus.setMunicipio(campus.getMunicipio().toUpperCase());
 
@@ -35,58 +36,57 @@ public class CampusService {
 		} catch (DataException e) {
 			throw new DataIntegrityException("erro ao salvar: " + e.getMessage());
 		}
-		
+
 	}
+
 	private void carregarFaculdade(Campus campus) {
 		campus.setFaculdade(faculdadeService.findBySigla(campus.getFaculdade().getSigla().toUpperCase()));
 	}
+
 	public List<Campus> buscarCampuss() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+
 	public List<Campus> criarCampusLista(List<Campus> lista) {
-		
+
 		lista.stream().forEach(campus -> carregarFaculdade(campus));
 		return repository.saveAll(lista);
 	}
-	
+
 	public Campus findByNome(String nome) {
 		Optional<Campus> campusOpt = repository.findByNome(nome.toUpperCase());
-		
-		if(campusOpt.isPresent()) {
+
+		if (campusOpt.isPresent()) {
 			return campusOpt.get();
 		}
-		
+
 		throw new ObjectNotFoundException("nao foi encontrado campus " + nome);
 	}
+
 	public Campus findByNomeAndMunicipio(Campus campus) {
-			Optional<Campus> campusOpt = repository.findByNomeAndMunicipio(campus.getNome().toUpperCase(),campus.getMunicipio().toUpperCase());
-		
-		if(campusOpt.isPresent()) {
+		Optional<Campus> campusOpt = repository.findByNomeAndMunicipio(campus.getNome().toUpperCase(),
+				campus.getMunicipio().toUpperCase());
+
+		if (campusOpt.isPresent()) {
 			return campusOpt.get();
 		}
-		
-	 
+
 		return criarCampus(campus);
 	}
 
 	public Campus findByOne(Campus campusExample) {
 		campusExample.setFaculdade(faculdadeService.findBySigla(campusExample.getFaculdade().getSigla()));
-		
-		Example<Campus> example = Example.of(campusExample, ExampleMatcher
-				.matching()
-				.withIgnoreCase()
-				.withIgnorePaths("id")
-				.withStringMatcher(StringMatcher.CONTAINING));
-	
-		
+
+		Example<Campus> example = Example.of(campusExample, ExampleMatcher.matching().withIgnoreCase()
+				.withIgnorePaths("id").withIgnoreNullValues());
+		System.out.println(campusExample);
 		Optional<Campus> campusOpt = repository.findOne(example);
-		
-		if(campusOpt.isPresent()) {
-		return campusOpt.get();
+
+		if (campusOpt.isPresent()) {
+			return campusOpt.get();
+		}
+
+		throw new ObjectNotFoundException("não encontrado o campus " + campusExample.getNome());
 	}
-	
- 
-	throw new ObjectNotFoundException("não encontrado o campus " + campusExample.getNome());
-}
 }

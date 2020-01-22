@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,8 +35,10 @@ public class NotaDeCorte {
 	@JoinColumn(name = "dia_id")
 	private Dia dia;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "vaga_id")
 	private Vaga vaga;
+	
 	
 }

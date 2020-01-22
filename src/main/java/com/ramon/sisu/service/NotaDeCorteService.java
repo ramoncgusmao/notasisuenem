@@ -44,6 +44,7 @@ public class NotaDeCorteService {
 		
 		Periodo periodo = periodoService.findByNome(dto.getPeriodo());
 		CursoFaculdade cursoFaculdade = buscarCursoFaculdade(dto, periodo);
+		System.out.println("cursoFaculade ok " +cursoFaculdade.getCampus());
 		Dia dia = diaService.findByDiaAndPeriodo(dto.getDia(), periodo);
 		Optional<Vaga> vagaOpt = cursoFaculdade.getVagas().stream().filter(vaga -> vaga.getTipoVaga().getSigla().equals(dto.getSiglaTipoVaga()) && vaga.getQuantidade() > 0).findFirst();
 		
@@ -63,10 +64,12 @@ public class NotaDeCorteService {
 	public CursoFaculdade buscarCursoFaculdade(DadosNotaDeCorteDto dto, Periodo periodo) {
 		try {
 			Curso curso = cursoService.findByNome(dto.getCurso());
-			Campus campus = campusService.findByNomeAndMunicipio(Campus.builder()
+			System.out.println(curso);
+			Campus campus = campusService.findByOne(Campus.builder()
 									.nome(dto.getCampus())
 									.faculdade(Faculdade.builder().sigla(dto.getSiglaFaculdade()).build())
 									.build());
+			System.out.println("campus ok" + campus);
 			CursoFaculdade cursoFaculdade = new CursoFaculdade();
 			cursoFaculdade.setCampus(campus);
 			cursoFaculdade.setCurso(curso);
@@ -74,7 +77,7 @@ public class NotaDeCorteService {
 			
 			return cursoFaculdadeService.findByOne(cursoFaculdade);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.toString() +" " + e.getMessage());
 			throw new ObjectNotFoundException(e.getMessage());
 		}
 	

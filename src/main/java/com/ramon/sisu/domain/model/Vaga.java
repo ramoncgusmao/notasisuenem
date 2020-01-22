@@ -1,5 +1,7 @@
 package com.ramon.sisu.domain.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,5 +42,8 @@ public class Vaga {
 	@ManyToOne
 	@JoinColumn(name = "curso_faculdade_id")
 	private CursoFaculdade cursoFaculdade;
+	
+	@OneToMany(mappedBy = "vaga")
+	private List<NotaDeCorte> notadecorte;
 	
 }

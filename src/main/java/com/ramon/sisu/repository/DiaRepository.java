@@ -11,4 +11,6 @@ public interface DiaRepository extends JpaRepository<Dia, Integer>{
 
 	Optional<Dia> findByDiaAndPeriodo(Integer dia, Periodo periodo);
 
+	Optional<Dia> findFirstByPeriodoOrderByIdDesc(Periodo periodo);
+
 }

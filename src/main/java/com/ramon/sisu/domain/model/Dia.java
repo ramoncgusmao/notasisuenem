@@ -48,5 +48,13 @@ public class Dia {
 	@JoinColumn(name = "periodo_id")
 	private Periodo periodo;
 	
+	public boolean comparar(Dia outroDia) {
+		
+		if(outroDia.getDia().equals(this.dia) && outroDia.getPeriodo().getNome().equals(periodo.getNome())) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 }

@@ -52,5 +52,9 @@ public class DiaService {
 		
 		throw new ObjectNotFoundException("não foi encontrado dia " + dia);
 	}
+	public Optional<Dia> findByPeriodo(Periodo periodo) {
+		
+		return repository.findFirstByPeriodoOrderByIdDesc(periodo);
+	}
 
 }
