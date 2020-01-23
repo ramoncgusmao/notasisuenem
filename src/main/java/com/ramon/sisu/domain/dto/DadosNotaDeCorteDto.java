@@ -30,4 +30,6 @@ public class DadosNotaDeCorteDto {
 	private String municipio; 
 	
 	private String siglaTipoVaga = "A0";
+	
+	private int turno;
 }

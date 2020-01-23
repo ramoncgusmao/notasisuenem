@@ -49,7 +49,7 @@ public class NotaIndividualService {
 		List<NotaIndividualRespostaDto> resposta = cursosFaculdade.stream()
 				.map(x -> converterNotaIndividualResposta(x, notaIndividual)).collect(Collectors.toList());
 
-		return resposta.stream().sorted(Comparator.comparing(NotaIndividualRespostaDto::getNotaOrder).reversed())
+		return resposta.stream().sorted(Comparator.comparing(NotaIndividualRespostaDto::getDiferencaNotaNormal).reversed())
 				.collect(Collectors.toList());
 	}
 

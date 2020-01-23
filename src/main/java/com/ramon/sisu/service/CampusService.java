@@ -64,15 +64,18 @@ public class CampusService {
 		throw new ObjectNotFoundException("nao foi encontrado campus " + nome);
 	}
 
-	public Campus findByNomeAndMunicipio(Campus campus) {
-		Optional<Campus> campusOpt = repository.findByNomeAndMunicipio(campus.getNome().toUpperCase(),
-				campus.getMunicipio().toUpperCase());
+	public Campus findByNomeAndMunicipio(Campus campusExample) {
+		campusExample.setFaculdade(faculdadeService.findBySigla(campusExample.getFaculdade().getSigla()));
+
+		Example<Campus> example = Example.of(campusExample, ExampleMatcher.matching().withIgnoreCase()
+				.withIgnorePaths("id").withIgnoreNullValues());
+		System.out.println(campusExample);
+		Optional<Campus> campusOpt = repository.findOne(example);
 
 		if (campusOpt.isPresent()) {
 			return campusOpt.get();
 		}
-
-		return criarCampus(campus);
+		return criarCampus(campusExample);
 	}
 
 	public Campus findByOne(Campus campusExample) {

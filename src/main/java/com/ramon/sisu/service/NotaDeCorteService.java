@@ -15,6 +15,7 @@ import com.ramon.sisu.domain.model.Dia;
 import com.ramon.sisu.domain.model.Faculdade;
 import com.ramon.sisu.domain.model.NotaDeCorte;
 import com.ramon.sisu.domain.model.Periodo;
+import com.ramon.sisu.domain.model.Turno;
 import com.ramon.sisu.domain.model.Vaga;
 import com.ramon.sisu.repository.NotaDeCorteRepository;
 import com.ramon.sisu.service.exception.ObjectNotFoundException;
@@ -66,7 +67,7 @@ public class NotaDeCorteService {
 			Curso curso = cursoService.findByNome(dto.getCurso());
 			System.out.println(curso);
 			Campus campus = campusService.findByOne(Campus.builder()
-									.nome(dto.getCampus())
+									.nome(dto.getCampus().toUpperCase())
 									.faculdade(Faculdade.builder().sigla(dto.getSiglaFaculdade()).build())
 									.build());
 			System.out.println("campus ok" + campus);
@@ -74,7 +75,7 @@ public class NotaDeCorteService {
 			cursoFaculdade.setCampus(campus);
 			cursoFaculdade.setCurso(curso);
 			cursoFaculdade.setPeriodo(periodo);
-			
+			cursoFaculdade.setTurno(Turno.toEnum(dto.getTurno()));
 			return cursoFaculdadeService.findByOne(cursoFaculdade);
 		} catch (Exception e) {
 			System.out.println(e.toString() +" " + e.getMessage());
