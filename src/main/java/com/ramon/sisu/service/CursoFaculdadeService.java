@@ -53,7 +53,7 @@ public class CursoFaculdadeService {
 						.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima",
 								"redacaoPeso", "possuiCotaRegional", "porcentagemRegional", "notaMinimaRedacao",
 								"notaMinimaNatureza", "notaMinimaHumana", "notaMinimaLinguagem", "notaMinimaMatematica",
-								"vagas")
+								"vagas", "codigoInep", "quantidadeVagas")
 						.withIgnoreNullValues());
 		
 		Optional<CursoFaculdade> cursoFaculdadeOpt = repository.findOne(example);
@@ -64,6 +64,7 @@ public class CursoFaculdadeService {
 
 		throw new ObjectNotFoundException("não existe curso faculdade com esses campos ");
 	}
+	
 
 	public List<CursoFaculdade> criarCursoFaculdadeLista(List<CursoFaculdade> lista) {
 
@@ -116,7 +117,7 @@ public class CursoFaculdadeService {
 				ExampleMatcher.matching().withIgnoreCase()
 						.withIgnorePaths("naturezaPeso", "humanaPeso", "linguagemPeso", "matematicaPeso", "mediaMinima",
 								"redacaoPeso", "possuiCotaRegional", "porcentagemRegional", "notaMinimaRedacao",
-								"notaMinimaNatureza", "notaMinimaHumana", "notaMinimaLinguagem", "notaMinimaMatematica")
+								"notaMinimaNatureza", "notaMinimaHumana", "notaMinimaLinguagem", "notaMinimaMatematica","codigoInep", "quantidadeVagas")
 						.withIgnoreNullValues());
 		List<CursoFaculdade> lista = repository.findAll(example);
 

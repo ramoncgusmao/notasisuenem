@@ -77,6 +77,11 @@ public class CursoFaculdade {
 	@Enumerated(EnumType.ORDINAL)
 	private Turno turno;
 	
+	@Column(columnDefinition = "integer default 0", name = "codigo_inep")
+	private int codigoInep;
+	
+	@Column(columnDefinition = "integer default 0", name = "quantidade_vagas")
+	private int quantidadeVagas;
 	
 	@ManyToOne
 	@JoinColumn(name = "periodo_id")

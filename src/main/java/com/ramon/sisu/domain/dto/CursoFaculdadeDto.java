@@ -51,6 +51,9 @@ public class CursoFaculdadeDto {
 	
 	private double porcentagemRegional;
 	
+	private int codigoInep;
+	
+	private int quantidadevagas = 0;
 	
 	private String periodo = "2020.1";
 
@@ -93,7 +96,8 @@ public class CursoFaculdadeDto {
 			cursoFaculdade.setNotaMinimaLinguagem(ln);
 			cursoFaculdade.setNotaMinimaRedacao(rn);
 			cursoFaculdade.setNotaMinimaMatematica(mn);
-			
+			cursoFaculdade.setQuantidadeVagas(quantidadevagas);
+			cursoFaculdade.setCodigoInep(codigoInep);
 			return cursoFaculdade;
 	}
 
