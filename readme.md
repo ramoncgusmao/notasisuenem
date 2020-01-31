@@ -1,32 +1,4 @@
-- Estado 
-buscarEstados
-
-- Curso
-CriarCurso
-buscarCurso
-
-- Faculdade
-- CriarFaculdade
-- buscarFaculdadePorEstado
-
-- Periodo
-- CriarPeriodo
-- buscarPeriodo
-
-- TipoVaga
-- CriarTipoVaga
-- ListarTipoVaga
-
-- CursoFaculdade
-- CriarCursoFaculdade(com vagas)
-- BuscarListaDeCursoPorPeriodo
-- BuscarListaDeCursoPorFaculdade
-- BuscarNotasPorFaculdadePeriodo
-- BuscarNotasCursoPorPeriodo
+# Api nota sisu!
+Aplicação feita para calcular a média do enem em todas as **faculdades** que possui aquele **curso**. 
 
 
-- Vagas
-- BuscarVagas
-
-- Dia
-- CriarDiaPeriodo
