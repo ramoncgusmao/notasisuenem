@@ -1,3 +1,5 @@
+# Api Media enem.
+
 Api feita para calcular a média do ENEM em todas as **faculdades** que possui aquele **curso** e mostrar a última nota de corte. Foi desenvolvido para resolver uma dor do usuário, que ao acessar o site do SISU ele deve entrar em faculdade por faculdade para ver qual a nota de corte desse curso naquela faculdade e campus, nosso site disponibiliza a lista de todas as faculdades que possuem o curso e qual a nota atual. 
 
 
